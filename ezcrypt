@@ -1,0 +1,26 @@
+#!/bin/bash
+echo -e "1 - encrypt text\n2 - decrypt text\n3 - encrypt file\n4 - decrypt file"
+read -p ": " option
+if [ $option = 1 ]
+then
+	echo -e -n "Input text to encrypt\n: "
+	text=$(sed '/^$/q')
+	echo $text | openssl enc -aes-256-cbc -a -salt
+elif [ $option = 2 ]
+then
+	echo -e -n "Input text to decrypt\n: "
+	text=$(sed '/^$/q')
+	echo $text | openssl enc -d -aes-256-cbc -a -salt
+elif [ $option = 3 ]
+then
+	echo "Input path to the file"
+	read -p ": " file
+	openssl enc -aes-256-cbc -in $file -out $file.enc
+elif [ $option = 4 ]
+then
+	echo "Input path to the file"
+	read -p ": " file
+	openssl enc -d -aes-256-cbc -in $file -out $file.dec
+else
+	echo "Wrong input; aborting execution"
+fi
